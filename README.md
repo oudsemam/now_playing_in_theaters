@@ -47,7 +47,7 @@ It is also free to create. Please refer to the documentation associated with the
 
 
 # Required Files:
-These files you will need to create (they are NOT included) as they will contain the secrets and tokens which will be used. Please be sure not to include these files in your own repository or share with others. Replace the items that begin with 'your'
+These files you will need to update as they will contain the secrets and tokens which will be used. Please be sure not to include these files in your own repository or share with others once you have updated them. Replace the items that begin with 'your' or 'YOUR'.
 - secrets.py
 secrets.py will hold the following information please keep the nameing the same or make sure you change variables:
 secrets = {
