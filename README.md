@@ -49,9 +49,7 @@ It is also free to create. Please refer to the documentation associated with the
 # Required Files:
 These files you will need to create (they are NOT included) as they will contain the secrets and tokens which will be used. Please be sure not to include these files in your own repository or share with others. Replace the items that begin with 'your'
 - secrets.py
-- settings.toml
-
-1) secrets.py will hold the following information please keep the nameing the same or make sure you change variables:
+secrets.py will hold the following information please keep the nameing the same or make sure you change variables:
 secrets = {
     'ssid' : 'YOUR_WIFI_NAME',
     'password' : 'YOUR_WIFI_PASSWORD',
@@ -60,8 +58,8 @@ secrets = {
     'tmdb_key' : 'your_tmdb_key',
     'tmdb_access_token' : 'your_tmdb_access_token',
 }
-
-2) settings.toml will hold similar information as your secrets.py but please note the structure/name changes in variables:
+- settings.toml
+settings.toml will hold similar information as your secrets.py but please note the structure/name changes in variables:
 CIRCUITPY_WIFI_SSID = "YOUR_WIFI_NAME"
 CIRCUITPY_WIFI_PASSWORD = "YOUR_WIFI_PASSWORD"
 AIO_USERNAME = "YOUR_AIO_USERNAME"
@@ -71,6 +69,10 @@ TMDB_KEY = "your_tmdb_key"
 
 # Installing
 The files need to be placed on your MagTag which MUST already have CircitPython installed. Again directions can be found on Adafruit.com under their learning section. Once this is done you can drag and drop some files or use their Mu editor or VS code to create the other needed files.
-1) create secrets.py and settings.toml files.
-2) Install rquired libraries in a 'lib' folder
-3) Drag and drop the 
+1) Once you have accounts, keys create secrets.py and settings.toml files. Change the variables in both files to match your environment for your wifi and other accounts.
+2) Install rquired libraries in a 'lib' folder.
+3) Drag and drop the code.py file to the drive.
+
+# Troubleshooting
+- If you get an error mentioned that a <module> was not found please note that the version you have already on your drive does not match the version of the CircuitPython do not match. Please be sure to use the newest version of sofware and libraries for this to work. 
+- If your display does not show any information please double check that your secrets.py and settings.toml have the information copied over and are formatted similarly to above.
