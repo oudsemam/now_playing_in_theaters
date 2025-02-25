@@ -76,3 +76,9 @@ The files need to be placed on your MagTag which MUST already have CircitPython 
 # Troubleshooting
 - If you get an error mentioned that a <module> was not found please note that the version you have already on your drive does not match the version of the CircuitPython do not match. Please be sure to use the newest version of sofware and libraries for this to work. 
 - If your display does not show any information please double check that your secrets.py and settings.toml have the information copied over and are formatted similarly to above.
+
+# Future Enhancements
+These are items that I would like to add to this project. They are in no particulaar order of importance but I hope to get these resolved soon as time permits as this is a passion project of mine.
+- Time functionality that will only update movies 1x per week.
+- Scrolling movie title if the title is too long to display on one row
+- MagTag button functionality to move through movies being displayed.
