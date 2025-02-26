@@ -58,15 +58,15 @@ secrets = {
     'tmdb_key' : 'your_tmdb_key',
     'tmdb_access_token' : 'your_tmdb_access_token',
 }
-- settings.toml
-settings.toml will hold similar information as your secrets.py but please note the structure/name changes in variables:
+- settings.toml will hold similar information as your secrets.py but please note the structure/name changes in variables:
 CIRCUITPY_WIFI_SSID = "YOUR_WIFI_NAME"
 CIRCUITPY_WIFI_PASSWORD = "YOUR_WIFI_PASSWORD"
 AIO_USERNAME = "YOUR_AIO_USERNAME"
 AIO_KEY = "YOUR_ADAFRUIT_AIO_KEY"
 TMBD_TOKEN = "your_tmdb_access_token"
 TMDB_KEY = "your_tmdb_key"
--secrets.json
+
+-secrets.json will hold another version of your creds so we can make two API calls without causing issues on the device:
 {
   "io_username": "your_aio_username",
   "io_key": "your_aio_key",
@@ -93,3 +93,4 @@ These are items that I would like to add to this project. They are in no particu
 - Time functionality that will only update movies 1x per week.
 - Scrolling movie title if the title is too long to display on one row
 - MagTag button functionality to move through movies being displayed.
+- Resolve the multiple API calls to two different URLs. Right now have to use two methods which call for multiple files on the back end with same information.
