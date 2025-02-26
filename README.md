@@ -66,12 +66,23 @@ AIO_USERNAME = "YOUR_AIO_USERNAME"
 AIO_KEY = "YOUR_ADAFRUIT_AIO_KEY"
 TMBD_TOKEN = "your_tmdb_access_token"
 TMDB_KEY = "your_tmdb_key"
+-secrets.json
+{
+  "io_username": "your_aio_username",
+  "io_key": "your_aio_key",
+  "network_type_wifi": {
+    "network_ssid": "your_wifi_name",
+    "network_password": "your_wifi_password"
+  },
+  "status_pixel_brightness": 0.2
+}
 
 # Installing
 The files need to be placed on your MagTag which MUST already have CircitPython installed. Again directions can be found on Adafruit.com under their learning section. Once this is done you can drag and drop some files or use their Mu editor or VS code to create the other needed files.
-1) Once you have accounts, keys create secrets.py and settings.toml files. Change the variables in both files to match your environment for your wifi and other accounts.
+1) Once you have accounts, keys create secrets.py, secrets.json and settings.toml files. Change the variables in both files to match your environment for your wifi and other accounts. *
 2) Install rquired libraries in a 'lib' folder.
 3) Drag and drop the code.py file to the drive.
+* Yes, you do need all 3 secret/settings files and named as such with repeated information in them. They are used in libraries that I did not create. This also helps with confusion on the device for we make two API calls using two different methods.
 
 # Troubleshooting
 - If you get an error mentioned that a <module> was not found please note that the version you have already on your drive does not match the version of the CircuitPython do not match. Please be sure to use the newest version of sofware and libraries for this to work. 
