@@ -1,5 +1,7 @@
-# MagTag Now Playing In Theaters v1.0 (last updated 2/25/2025)
+# MagTag Now Playing In Theaters 
 by: Maggie Oudsema
+v1.0
+last updated 2/25/2025
 By using the data from themoviedb.org v3 API which has multiple API points, this is just 1 of them which is their 'Now Playing' endpoint: https://api.themoviedb.org/3/movie/now_playing to get, pars/filter JSON data, and display the movie Title, Release Date, and short description (a.k.a. Overview). This uses some of the Adafruit libraries that are built as part of their other products and projects.
 
 # Links:
@@ -90,7 +92,6 @@ The files need to be placed on your MagTag which MUST already have CircitPython 
 
 # Future Enhancements
 These are items that I would like to add to this project. They are in no particulaar order of importance but I hope to get these resolved soon as time permits as this is a passion project of mine.
-- Time functionality that will only update movies 1x per week.
 - Scrolling movie title if the title is too long to display on one row
 - MagTag button functionality to move through movies being displayed.
 - Resolve the multiple API calls to two different URLs. Right now have to use two methods which call for multiple files on the back end with same information.
