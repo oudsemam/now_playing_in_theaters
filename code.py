@@ -13,7 +13,7 @@ from adafruit_magtag.magtag import MagTag
 from adafruit_display_text import label, wrap_text_to_pixels, scrolling_label
 
 
-# ßGetting today's date variables
+# Getting today's date variables
 aio_username = os.getenv("AIO_USERNAME")
 aio_key = os.getenv("AIO_KEY")
 timezone = os.getenv("TIMEZONE")
@@ -204,7 +204,7 @@ def get_movie_info(MOVIE_URL_START,
         PAGENUMBER,
         MOVIE_URL_REGION,
         MOVIES,
-        CONTINUE, 
+        CONTINUE,
         HOW_MANY_DAYS_TO_ADD):
     print("Getting all the movies...")
     JSON_MOVIE_URL = format_url_string(MOVIE_URL_START,
@@ -286,4 +286,6 @@ def display_movies(MOVIES,
         while len(main_group) >1:
             main_group.pop()
 
- display_movies(MOVIES, title_text_area, release_date_text, details_text, main_group, WRAP_TEXT)
+while True:
+    display_movies(MOVIES, title_text_area, release_date_text, details_text, main_group, WRAP_TEXT)
+    time.sleep(60*60*60)
