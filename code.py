@@ -34,8 +34,8 @@ MOVIE_URL_REGION ="region=US"
 
 # Need to define and use for MagTag call early on
 # Remainder of functions are down below.
-def format_url_string (URL_START, 
-    URL_END_POINT, 
+def format_url_string (URL_START,
+    URL_END_POINT,
     URL_LANGUAGE,
     URL_PAGE,
     PAGENUMBER,
@@ -44,8 +44,8 @@ def format_url_string (URL_START,
     JSON_MOVIE_URL += "&"+URL_PAGE+str(PAGENUMBER)+"&"+URL_REGION
     return str(JSON_MOVIE_URL)
 
-JSON_MOVIE_URL = format_url_string (MOVIE_URL_START, 
-    MOVIE_URL_END_POINT, 
+JSON_MOVIE_URL = format_url_string (MOVIE_URL_START,
+    MOVIE_URL_END_POINT,
     MOVIE_URL_LANGUAGE,
     MOVIE_URL_PAGE,
     PAGENUMBER,
@@ -54,6 +54,7 @@ JSON_MOVIE_URL = format_url_string (MOVIE_URL_START,
 MOVIES = []
 magtag = MagTag(url=JSON_MOVIE_URL, headers=HEADERS, json_path=MOVIES)
 # variables for other functions
+HOW_MANY_DAYS_TO_ADD = 14
 READ_TIME = 45
 WAIT = 180
 CONTINUE = True
@@ -114,19 +115,19 @@ def add_days(today_string, days_to_add):
     year = int(date_obj[0])
     month = int(date_obj[1])
     day = int(date_obj[2])
-    # add days_to_add
     leap_year_calc = year/400
     if "." in str(leap_year_calc):
         is_leap_year = True
     else:
         is_leap_year = False
     added_days = day + days_to_add
-    if month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12 and added_days > 31:
-        day = added_days - 31
+    if added_days > 31 and (month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12):
+        added_days = added_days - 31
+        print("This is calc day: ", day)
         month += 1
         if month == 12:
             year += 1
-    if month == 4 or month == 6 or month == 9 or month == 11 and added_days > 30:
+    if (month == 4 or month == 6 or month == 9 or month == 11) and added_days > 30:
         day = added_days - 30
         month += 1
     if month == 2 and is_leap_year and day < 28:
@@ -134,21 +135,24 @@ def add_days(today_string, days_to_add):
         month +=1
     date_next_week = str(year)+"-"
     if month < 10:
-        date_next_week += "0"+str(month)
+        date_next_week += "0"+str(month)+"-"
     else:
         date_next_week += str(month)
-    date_next_week += "-"+str(day)
+    if added_days < 10:
+        date_next_week += "0"+str(added_days)
+    else:
+        date_next_week += str(added_days)
     return date_next_week
 
 
 
-def filter_by_date(today_string, release_date_string):
-    # takes today's date based on set timezone and 
+def filter_by_date(today_string, release_date_string, HOW_MANY_DAYS_TO_ADD):
+    # takes today's date based on set timezone and
     # compares it to the movie release_date
     # also added functionality to show only movies released in the
     # next 7 days
     today_date = string_to_date(today_string)
-    future_date_string = add_days(today_string, 14)
+    future_date_string = add_days(today_string, HOW_MANY_DAYS_TO_ADD)
     future_date = string_to_date(future_date_string)
     movie_release_date = string_to_date(release_date_string)
     movie_released_after_today = today_date < movie_release_date
@@ -160,18 +164,18 @@ def filter_by_date(today_string, release_date_string):
     return add_movie
 
 def format_to_date_string(datetime_string):
-    # takes the response from get_today and parses out the date 
+    # takes the response from get_today and parses out the date
     # string infomration
     datetime_obj = datetime_string.split(' ')
     if len(datetime_obj) > 0:
         today_string = datetime_obj[0]
         return today_string
     else:
-        today_string = "2025-02-01"
+        today_string = "2025-04-01"
     return today_string
 
 def get_today():
-    # calls the API in order to get today's date based on the set 
+    # calls the API in order to get today's date based on the set
     # timezone and creds in secrets.py
     pool = socketpool.SocketPool(wifi.radio)
     requests = adafruit_requests.Session(pool, ssl.create_default_context())
@@ -181,10 +185,10 @@ def get_today():
     today_string = format_to_date_string(datetime_string)
     return today_string
 
-def movie_loop(today, raw_data, results_data):
+def movie_loop(today, raw_data, results_data, HOW_MANY_DAYS_TO_ADD):
     if len(raw_data['results']) > 0:
         for movie in results_data:
-            add_movie = filter_by_date(today, movie['release_date'])
+            add_movie = filter_by_date(today, movie['release_date'], HOW_MANY_DAYS_TO_ADD)
             if add_movie and movie['poster_path']!=None:
                 movie_data = {}
                 movie_data["title"] = movie['title']
@@ -193,16 +197,17 @@ def movie_loop(today, raw_data, results_data):
                 MOVIES.append(movie_data)
     return MOVIES
 
-def get_movie_info(MOVIE_URL_START, 
+def get_movie_info(MOVIE_URL_START,
         MOVIE_URL_END_POINT,
         MOVIE_URL_LANGUAGE,
         MOVIE_URL_PAGE,
         PAGENUMBER,
         MOVIE_URL_REGION,
-        MOVIES, 
-        CONTINUE):
+        MOVIES,
+        CONTINUE, 
+        HOW_MANY_DAYS_TO_ADD):
     print("Getting all the movies...")
-    JSON_MOVIE_URL = format_url_string(MOVIE_URL_START, 
+    JSON_MOVIE_URL = format_url_string(MOVIE_URL_START,
         MOVIE_URL_END_POINT,
         MOVIE_URL_LANGUAGE,
         MOVIE_URL_PAGE,
@@ -216,11 +221,11 @@ def get_movie_info(MOVIE_URL_START,
             magtag.network.connect()
             raw_data = json.loads(magtag.fetch())
             results_data = raw_data['results']
-            MOVIES = movie_loop(today, raw_data, results_data)
+            MOVIES = movie_loop(today, raw_data, results_data, HOW_MANY_DAYS_TO_ADD)
             total_pages = raw_data['total_pages']
             if PAGENUMBER <= total_pages:
                 PAGENUMBER += 1
-                JSON_MOVIE_URL_NEXT_PAGE = format_url_string(MOVIE_URL_START, 
+                JSON_MOVIE_URL_NEXT_PAGE = format_url_string(MOVIE_URL_START,
                     MOVIE_URL_END_POINT,
                     MOVIE_URL_LANGUAGE,
                     MOVIE_URL_PAGE,
@@ -236,20 +241,21 @@ def get_movie_info(MOVIE_URL_START,
             time.sleep(3)
 
 # runs the program
-MOVIES = get_movie_info(MOVIE_URL_START, 
+MOVIES = get_movie_info(MOVIE_URL_START,
         MOVIE_URL_END_POINT,
         MOVIE_URL_LANGUAGE,
         MOVIE_URL_PAGE,
         PAGENUMBER,
         MOVIE_URL_REGION,
-        MOVIES, 
-        CONTINUE)
+        MOVIES,
+        CONTINUE,
+        HOW_MANY_DAYS_TO_ADD)
 
-def display_movies(MOVIES, 
-    title_text_area, 
-    release_date_text, 
-    details_text, 
-    main_group, 
+def display_movies(MOVIES,
+    title_text_area,
+    release_date_text,
+    details_text,
+    main_group,
     WRAP_TEXT):
     # Display each movie information as a group
     i = 0
@@ -280,4 +286,4 @@ def display_movies(MOVIES,
         while len(main_group) >1:
             main_group.pop()
 
-display_movies(MOVIES, title_text_area, release_date_text, details_text, main_group, WRAP_TEXT)
+ display_movies(MOVIES, title_text_area, release_date_text, details_text, main_group, WRAP_TEXT)
